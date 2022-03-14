@@ -1,0 +1,106 @@
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control" placeholder="Buscar producto" #txtTermino (keyup)="buscar(txtTermino.value)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <div class="alert-heading">Cargando</div>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="card-title">Productos: ({{ productos.length}})</h4>
+                        <h6 class="card-subtitle">Productos registrados en la app</h6>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-right">
+                            <button class="btn btn-primary" [routerLink]="['/dashboard/producto/create/']">
+                          <i class="fa fa-user-o"></i>
+                          Crear Producto
+                        </button>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-right">
+                            <button class="btn btn-primary" [routerLink]="['/dashboard/producto/papelera/']">
+                        <i class="fa fa-trash"></i>
+                        Papelera
+                      </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <hr>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>img</th>
+                                <th>Titulo</th>
+                                <th>Status</th>
+                                <th>Precio Ahora</th>
+                                <th>Precio Antes</th>
+                                <th>Fecha de creación</th>
+                                <th class="text-nowrap">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of productos">
+                                <td class="text-center">
+                                    <!-- <img [src]="prod.img | imagenPipe: 'productos'" class="img-responsive avatar" alt="{{prod.titulo}}"> -->
+                                    <img (click)="abrirModal(producto)" [src]="producto.img | imagenPipe: 'productos'" class="avatar cursor" alt="{{producto.titulo}}">
+                                </td>
+                                <td>{{producto.titulo}}</td>
+                                <td>
+                                    <div class="font-size-sm mb-4">
+                                        <span class="text-heading font-weight-medium mr-1">Estado:</span>
+                                        <span class="badge badge-accent badge-shadow" *ngIf="producto.status == 'Edición'">{{producto.status}}</span>
+                                        <span class="badge badge-success badge-shadow" *ngIf="producto.status == 'Activo'">{{producto.status}}</span>
+                                        <span class="badge badge-primary badge-shadow" *ngIf="producto.status == 'Desactivado'">{{producto.status}}</span>
+                                    </div>
+                                </td>
+                                <td>{{producto.precio_ahora}}...</td>
+                                <td>{{producto.precio_antes}}...</td>
+                                <td>{{ producto.createdAt | date:'MMM d, y, h:mm:ss a' }}</td>
+                                <td class="text-nowrap text-center">
+
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <span class="czi-settings"></span> Opciones
+                                    </button>
+                                        <div class="dropdown-menu">
+                                            <a [routerLink]="['/dashboard/producto/edit',producto._id]" class="dropdown-item"><span class="czi-edit-alt"></span> &nbsp;Editar</a>
+                                            <a [routerLink]="['/dashboard/producto/galeria', producto._id]" class="dropdown-item"><span class="czi-image"></span> &nbsp;Galería</a>
+                                            <a [routerLink]="['/dashboard/producto/selector', producto._id]" class="dropdown-item"><span class="czi-menu-circle"></span> &nbsp;Selectores</a>
+                                            <a [routerLink]="['/dashboard/producto/color', producto._id]" class="dropdown-item"><span class="czi-diamond"></span> &nbsp;Colores</a>
+                                            <a [routerLink]="['/dashboard/producto/papelera', producto._id]" class="dropdown-item"><span class="czi-trash"></span> &nbsp; Papelera</a>
+                                            <a (click)="eliminarProducto(producto)" class="dropdown-item"><span class="czi-delete-document"></span> &nbsp;Eliminar</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

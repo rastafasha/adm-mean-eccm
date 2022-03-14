@@ -1,0 +1,70 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
+import { Selector } from "../models/selector.model";
+import { Observable } from 'rxjs';
+
+const base_url = environment.baseUrl;
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SelectorService {
+
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  get token():string{
+    return localStorage.getItem('token') || '';
+  }
+
+
+  get headers(){
+    return{
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
+
+  cargarSelectors(){
+
+    const url = `${base_url}/selectors`;
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp:{ok: boolean, selectors: Selector[]}) => resp.selectors)
+      )
+
+  }
+
+  crearSelector(data):Observable<any>{
+    const url = `${base_url}/selectors`;
+    return this.http.post(url, data, this.headers);
+  }
+
+  actualizarSelector(_id:string, titulo: string, producto: string){
+    const url = `${base_url}/selectors/${_id}`;
+    return this.http.put(url, {titulo, producto}, this.headers);
+  }
+
+  borrarSelector(_id:string){
+    const url = `${base_url}/selectors/${_id}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  listar(id):Observable<any>{
+    const url = `${base_url}/selectors/${id}`;
+    return this.http.get(url, this.headers);
+  }
+
+  estado(id):Observable<any>{
+    const url = `${base_url}/selectors/${id}`;
+    return this.http.put(url, this.headers);
+  }
+
+
+}
