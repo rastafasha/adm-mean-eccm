@@ -5,6 +5,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { ComentarioService } from 'src/app/services/comentario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {environment} from 'src/environments/environment';
+import { Usuario } from 'src/app/models/usuario.model';
 declare let Chart;
 
 @Component({
@@ -31,6 +32,12 @@ export class DashboardComponent implements OnInit {
   public num_productos = 0;
   public num_ventas = 0;
   public num_comentarios = 0;
+
+  public totalUsuarios: number = 0;
+  public usuarios: Usuario[] = [];
+  public usuariosTemp: Usuario[] = [];
+
+  public desde: number = 0;
 
   public total_ganado = {
     enero : 0,
@@ -79,7 +86,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     const canvas = <HTMLCanvasElement> document.getElementById('myChart');
         const ctx = canvas.getContext('2d');
-    
+
         var fecha = new Date();
 
         var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Novimbre", "Deciembre"];
@@ -240,16 +247,15 @@ export class DashboardComponent implements OnInit {
         );
 
         this.data_ventas();
-        this._userService.get_user_data().subscribe(
-          response =>{
+        this.loadUsuarios();
+        // this._userService.get_user_data().subscribe(
+        //   response =>{
+        //     this.num_user = response.data.length;
+        //   },
+        //   error=>{
 
-
-            this.num_user = response.data.length;
-          },
-          error=>{
-
-          }
-        );
+        //   }
+        // );
 
         this._productoService.listar_autocomplete().subscribe(
           response =>{
@@ -284,6 +290,17 @@ export class DashboardComponent implements OnInit {
 
       }
     );
+  }
+
+  loadUsuarios(){
+    this._userService.cargarUsuarios(this.desde)
+    .subscribe(
+      ({total, usuarios})=>{
+        this.totalUsuarios = total;
+        this.usuarios = usuarios;
+        this.usuariosTemp = usuarios;
+      }
+    )
   }
 
 }

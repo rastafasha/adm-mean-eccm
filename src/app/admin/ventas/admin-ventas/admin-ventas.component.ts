@@ -78,7 +78,7 @@ export class AdminVentasComponent implements OnInit {
     this._ventaService.init_data_admin().subscribe(
       response=>{
         this.ventas = response.data;
-        this.count_cat = this.ventas.length;
+        // this.count_cat = this.ventas.length;
         this.page = 1;
         console.log(this.ventas);
 

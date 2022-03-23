@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay } from 'rxjs/operators';
 import { Medico } from 'src/app/models/medico.model';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import Swal from 'sweetalert2';
 import { Hospital } from '../../../models/hospital.model';
 import { HospitalService } from '../../../services/hospital.service';
@@ -22,13 +23,19 @@ export class MedicoComponent implements OnInit {
   public hospitalSeleccionado: Hospital;
   public medicoSeleccionado: Medico;
 
+  public imagenSubir: File;
+  public imgTemp: any = null;
+  public file :File;
+  public imgSelect : String | ArrayBuffer;
+
 
   constructor(
     private fb: FormBuilder,
     private hospitalService: HospitalService,
     private medicoService: MedicoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private fileUploadService: FileUploadService,
   ) { }
 
   ngOnInit(): void {
@@ -106,6 +113,33 @@ export class MedicoComponent implements OnInit {
     }
 
 
+  }
+
+   cambiarImagen(file: File){
+    this.imagenSubir = file;
+
+    if(!file){
+      return this.imgTemp = null;
+    }
+
+    const reader = new FileReader();
+    const url64 = reader.readAsDataURL(file);
+
+    reader.onloadend = () =>{
+      this.imgTemp = reader.result;
+    }
+  }
+
+  subirImagen(){
+    this.fileUploadService
+    .actualizarFoto(this.imagenSubir, 'hospitales', this.hospitalSeleccionado._id)
+    .then(img => { this.hospitalSeleccionado.img = img;
+      Swal.fire('Guardado', 'La imagen fue actualizada', 'success');
+
+    }).catch(err =>{
+      Swal.fire('Error', 'No se pudo subir la imagen', 'error');
+
+    })
   }
 
 }

@@ -14,10 +14,10 @@ export class Congeneral{
     public direccion: string,
     public horarios: string,
     public iframe_mapa: string,
-
     public facebook: string,
     public instagram: string,
     public youtube: string,
+    public language: string,
     public twitter: string,
     public logo?: string,
     public favicon?: string,

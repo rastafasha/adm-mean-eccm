@@ -6,6 +6,10 @@ import { IngresoService } from 'src/app/services/ingreso.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { Observable } from 'rxjs/internal/Observable';
 
+import { FileUploadService } from 'src/app/services/file-upload.service';
+import { Ingreso } from 'src/app/models/ingreso.model';
+import Swal from 'sweetalert2';
+
 
 interface HtmlInputEvent extends Event{
   target : HTMLInputElement & EventTarget;
@@ -52,12 +56,17 @@ export class CreateIngresoComponent implements OnInit, DoCheck {
   };
   public data_ingreso : Array<any> = [];
 
+  public imagenSubir: File;
+  public imgTemp: any = null;
+  public ingresoSeleccionado: Ingreso;
+
   constructor(
     private _userService: UsuarioService,
     private _router : Router,
     private _route :ActivatedRoute,
     private _ingresoervice :IngresoService,
-    private _productoService :ProductoService
+    private _productoService :ProductoService,
+    private fileUploadService: FileUploadService,
   ) {
     this.identity = this._userService.usuario;
     this.url = environment.baseUrl;
@@ -139,7 +148,7 @@ export class CreateIngresoComponent implements OnInit, DoCheck {
             response =>{
               console.log('success');
 
-              this._router.navigate(['/admin/ingresos']);
+              this._router.navigate(['/dashboard/ingresos']);
 
             },
             error=>{
@@ -165,17 +174,46 @@ export class CreateIngresoComponent implements OnInit, DoCheck {
     $('.cz-file-drop-preview').html("<img src="+this.imgSelect+">");
   }
 
-  imgSelected(event: HtmlInputEvent){
-    if(event.target.files  && event.target.files[0]){
-        this.file = <File>event.target.files[0];
+  // imgSelected(event: HtmlInputEvent){
+  //   if(event.target.files  && event.target.files[0]){
+  //       this.file = <File>event.target.files[0];
 
-        const reader = new FileReader();
-        reader.onload = e => this.imgSelect= reader.result;
-        reader.readAsDataURL(this.file);
-        $('.cz-file-drop-icon').addClass('cz-file-drop-preview img-thumbnail rounded');
-        $('.cz-file-drop-icon').removeClass('cz-file-drop-icon czi-cloud-upload');
+  //       const reader = new FileReader();
+  //       reader.onload = e => this.imgSelect= reader.result;
+  //       reader.readAsDataURL(this.file);
+  //       $('.cz-file-drop-icon').addClass('cz-file-drop-preview img-thumbnail rounded');
+  //       $('.cz-file-drop-icon').removeClass('cz-file-drop-icon czi-cloud-upload');
 
+  //   }
+
+  // }
+
+
+
+  cambiarImagen(file: File){
+    this.imagenSubir = file;
+
+    if(!file){
+      return this.imgTemp = null;
     }
 
+    const reader = new FileReader();
+    const url64 = reader.readAsDataURL(file);
+
+    reader.onloadend = () =>{
+      this.imgTemp = reader.result;
+    }
+  }
+
+  subirImagen(){
+    this.fileUploadService
+    .actualizarFoto(this.imagenSubir, 'ingresos', this.ingresoSeleccionado._id)
+    .then(img => { this.ingresoSeleccionado.img = img;
+      Swal.fire('Guardado', 'La imagen fue actualizada', 'success');
+
+    }).catch(err =>{
+      Swal.fire('Error', 'No se pudo subir la imagen', 'error');
+
+    })
   }
 }

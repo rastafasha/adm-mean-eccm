@@ -18,7 +18,6 @@ export class CuponService {
   constructor(
     private http : HttpClient
   ) {
-    this.url = environment.baseUrl;
    }
 
    get token():string{

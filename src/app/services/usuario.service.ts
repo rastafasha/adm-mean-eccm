@@ -190,7 +190,7 @@ export class UsuarioService {
   }
 
   get_user_data():Observable<any>{
-    const url = `${base_url}/usuarios/user_get/admin`;
+    const url = `${base_url}/usuarios`;
     return this.http.get(url, this.headers)
   }
 

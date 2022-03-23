@@ -25,7 +25,7 @@
                         <form #ingresoForm="ngForm" (ngSubmit)="onSubmit(ingresoForm)">
                             <div class="card">
                                 <div class="card-header">
-                                    <span><span class="czi-user-circle" style="font-size: 20px;"></span> {{identity.first_name}} {{identity.last_name}} - {{identity._id.toUpperCase()}}</span>
+                                    <span><span class="czi-user-circle" style="font-size: 20px;"></span> {{identity.first_name}} {{identity.last_name}} - {{identity._id}}</span>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -36,7 +36,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text font-weight-semibold fondo-b-n">Monto</span>
                                                         </div>
-                                                        <input class="form-control" type="number" placeholder="Usuario activo" name="total_pagado" [(ngModel)]="ingreso.total_pagado" required>
+                                                        <input class="form-control" type="number" placeholder="Monto" name="total_pagado" [(ngModel)]="ingreso.total_pagado" required>
 
                                                     </div>
                                                 </div>
@@ -61,13 +61,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <!-- <div class="col-lg-6">
                                             <div class="cz-file-drop-area" style="height: 100% !important;">
                                                 <div class="cz-file-drop-icon czi-cloud-upload"></div>
                                                 <span class="cz-file-drop-message">Suelta la imagen aquí</span>
-                                                <input type="file" class="cz-file-drop-input" (change)="imgSelected($event)">
+                                                <input type="file" class="cz-file-drop-input" (change)="cambiarImagen($event)">
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                 </div>
@@ -76,6 +76,21 @@
                                 </div>
                             </div>
                         </form>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Image</h4>
+                                    <h6 class="card-subtitle">Logo de marca</h6>
+                                    <input type="file" (change)="cambiarImagen($event.target.files[0])">
+                                    <br>
+                                    <br>
+                                    <button type="button" [disabled]="!imagenSubir" (click)="subirImagen()" class="btn btn-success waves-effect waves-light m-r-10 btn-block">
+                                  <i class="fa fa-save"></i> Cambiar imagen
+                                 </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6 form-group">
                         <div class="card">

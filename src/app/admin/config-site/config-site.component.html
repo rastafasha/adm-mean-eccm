@@ -8,6 +8,15 @@
                 <button class="btn btn-outline-danger" href="javascript:void(0)" (click)="goBack()">Volver</button>
                 <form class="form p-t-20" [formGroup]="confGeneralForm" (submit)="updateConfiguracion()">
                     <div class="form-group">
+                        <label for="select-input">Language</label>
+                        <select class="form-control custom-select" formControlName="language" required>
+      <option selected  value="">Seleccione</option>
+      <option  value="en">English</option>
+      <option  value="es">Español</option>
+
+  </select>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputuname">Razón social</label>
                         <div class="input-group">
 
@@ -132,7 +141,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="congeneralSeleccionado">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">imagen</h4>
@@ -150,7 +159,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="congeneralSeleccionado">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Favicon</h4>

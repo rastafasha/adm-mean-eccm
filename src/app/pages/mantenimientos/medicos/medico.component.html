@@ -1,4 +1,4 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 animated fadeIn fast" *ngIf="hospitalSeleccionado">
+    <!-- <div class="col-md-6 animated fadeIn fast" *ngIf="hospitalSeleccionado">
         <div class="row">
             <div class="card">
                 <div class="card-body">
@@ -43,5 +43,25 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+
+    <div class="col-md-6 animated fadeIn fast" *ngIf="hospitalSeleccionado">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-tit">Hospital</h4>
+                <h6 class="card-subtitle">{{hospitalSeleccionado.nombre}}</h6>
+                <div class="text-center">
+                    <img *ngIf="!imgTemp" [src]="hospitalSeleccionado.img | imagenPipe: 'hospitales'  " class="img-responsive img-thumbnail" alt="">
+                    <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar">
+                </div>
+                <input type="file" (change)="cambiarImagen($event.target.files[0])">
+                <br>
+                <br>
+                <button type="button" [disabled]="!imagenSubir" (click)="subirImagen()" class="btn btn-success waves-effect waves-light m-r-10 btn-block">
+              <i class="fa fa-save"></i> Cambiar imagen
+             </button>
+            </div>
+        </div>
     </div>
-</div> -->
+</div>

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario.service';
 import {environment} from 'src/environments/environment';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-index-cancelacion',
@@ -14,7 +15,7 @@ import {environment} from 'src/environments/environment';
 export class IndexCancelacionComponent implements OnInit {
 
   public cancelaciones : Array<any> = [];
-  public identity;
+  public usuario: Usuario;
   public url;
   public filtro = '';
   public count_cat;
@@ -30,7 +31,7 @@ export class IndexCancelacionComponent implements OnInit {
     private _ventaService: VentaService,
     private _comentarioService : ComentarioService
   ) {
-    this.identity = this._userService.usuario;
+    this.usuario = this._userService.usuario;
   }
 
   ngOnInit(): void {
@@ -56,6 +57,7 @@ export class IndexCancelacionComponent implements OnInit {
       response =>{
         this.cancelaciones = response.cancelaciones;
         this.count_cat = this.cancelaciones.length;
+        console.log(this.cancelaciones);
       },
       error=>{
 

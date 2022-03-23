@@ -71,15 +71,12 @@ export class ConfigSiteComponent implements OnInit {
       instagram: ['', Validators.required],
       youtube: ['', Validators.required],
       twitter: ['', Validators.required],
+      language: ['', Validators.required],
     });
 
-    this.congeneralService.getCongeneralById(this.congeneral._id).subscribe(
-      resp =>{
-        this.congeneral = resp;
-        console.log(this.congeneral)
+    this.activatedRoute.params.subscribe( ({id}) => this.cargarConf(id));
 
-      }
-    )
+
 
   }
 
@@ -114,7 +111,8 @@ export class ConfigSiteComponent implements OnInit {
           facebook,
           instagram,
           youtube,
-          twitter
+          twitter,
+          language
          } = congeneral;
         this.congeneralSeleccionado = congeneral;
         this.confGeneralForm.setValue({
@@ -130,7 +128,9 @@ export class ConfigSiteComponent implements OnInit {
           facebook,
           instagram,
           youtube,
-          twitter});
+          twitter,
+          language
+        });
 
       });
 
@@ -146,7 +146,7 @@ export class ConfigSiteComponent implements OnInit {
     .subscribe(resp => {
       const {titulo, cr, telefono_uno,telefono_dos, email_uno,
         email_dos, direccion, horarios, iframe_mapa, facebook,
-        instagram, youtube, twitter} = this.confGeneralForm.value;
+        instagram, youtube, twitter, language} = this.confGeneralForm.value;
       this.congeneral.titulo = titulo;
       this.congeneral.cr = cr;
       this.congeneral.telefono_uno = telefono_uno;
@@ -160,6 +160,7 @@ export class ConfigSiteComponent implements OnInit {
       this.congeneral.instagram = instagram;
       this.congeneral.youtube = youtube;
       this.congeneral.twitter = twitter;
+      this.congeneral.language = language;
       Swal.fire('Guardado', 'Los cambios fueron actualizados', 'success');
     }, (err)=>{
       Swal.fire('Error', err.error.msg, 'error');

@@ -14,7 +14,8 @@ export class FileUploadService {
 
   async actualizarFoto(
     archivo: File,
-    tipo: 'usuarios'|'medicos'|'hospitales' |'marcas' |'productos' | 'congenerals'| 'promocions',
+    tipo: 'usuarios'|'medicos'|'hospitales' |'marcas' |'productos' | 'congenerals'
+    |'promocions' |'galerias'|'ingresos',
     id: string
   ){
 

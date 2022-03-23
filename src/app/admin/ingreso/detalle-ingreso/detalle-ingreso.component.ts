@@ -4,6 +4,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { IngresoService } from 'src/app/services/ingreso.service';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-detalle-ingreso',
@@ -13,7 +14,7 @@ import { IngresoService } from 'src/app/services/ingreso.service';
 export class DetalleIngresoComponent implements OnInit {
 
   public url;
-  public identity;
+  public usuario: Usuario;
   public id;
   public ingreso;
   public detalle;
@@ -22,10 +23,10 @@ export class DetalleIngresoComponent implements OnInit {
     private _ingresoService : IngresoService,
     private _route : ActivatedRoute,
     private _router : Router,
-    private _userService: UsuarioService,
+    private usuarioService: UsuarioService,
   ) {
     this.url = environment.baseUrl;
-    this.identity = this._userService.usuario;
+    this.usuario = usuarioService.usuario;
   }
 
   ngOnInit(): void {

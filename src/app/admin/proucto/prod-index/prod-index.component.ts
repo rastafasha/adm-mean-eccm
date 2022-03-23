@@ -10,7 +10,8 @@ import { Producto } from '../../../models/producto.model';
 import { ProductoService } from '../../../services/producto.service';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 
-
+declare var jQuery:any;
+declare var $:any;
 @Component({
   selector: 'app-prod-index',
   templateUrl: './prod-index.component.html',
@@ -30,6 +31,8 @@ export class ProdIndexComponent implements OnInit {
 
   public imgSubs: Subscription;
   listIcons;
+
+  public msm_error;
 
   constructor(
     private productoService: ProductoService,
@@ -100,8 +103,6 @@ export class ProdIndexComponent implements OnInit {
 
   }
 
-
-
   buscar(termino: string){
 
     if(termino.length === 0){
@@ -114,18 +115,52 @@ export class ProdIndexComponent implements OnInit {
     })
   }
 
-  guardarCambios(producto: Producto){
-    this.productoService.actualizarProducto(producto)
-    .subscribe( resp => {
-      Swal.fire('Actualizado', producto.titulo,  'success')
-    })
 
+
+
+  desactivar(id){
+    this.productoService.desactivar(id).subscribe(
+      response=>{
+        $('#desactivar-'+id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+        this.loadProductos();
+      },
+      error=>{
+        this.msm_error = 'No se pudo desactivar el producto, vuelva a intenter.'
+      }
+    )
+  }
+
+  activar(id){
+    this.productoService.activar(id).subscribe(
+      response=>{
+
+        $('#activar-'+id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+        this.loadProductos();
+      },
+      error=>{
+
+
+        this.msm_error = 'No se pudo activar el producto, vuelva a intenter.'
+      }
+    )
+  }
+
+  papelera(id){
+    this.productoService.papelera(id).subscribe(
+      response=>{
+        $('#papelera-'+id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+        this.loadProductos();
+
+      },
+      error=>{
+        this.msm_error = 'No se pudo mover a papelera el producto, vuelva a intenter.'
+      }
+    )
   }
 
 
-  abrirModal(producto: Producto){
-    this.modalImagenService.abrirModal('productos', producto._id, producto.img );
-    console.log('modal', this.productos)
-  }
 
 }

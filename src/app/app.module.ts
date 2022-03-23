@@ -11,6 +11,11 @@ import { ComponentsModule } from './components/components.module';
 import { PipesModule } from './pipes/pipes.module';
 import { AdminModule } from './admin/admin.module';
 
+// Translation
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 
 
 
@@ -22,11 +27,22 @@ import { AdminModule } from './admin/admin.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     PagesModule,
     AuthModule,
     ComponentsModule,
     PipesModule,
-    AdminModule
+    AdminModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'es',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => {
+          return new TranslateHttpLoader(http);
+        },
+        deps: [ HttpClient ]
+      }
+    })
 
   ],
   bootstrap: [AppComponent]

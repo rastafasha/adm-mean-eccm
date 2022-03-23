@@ -69,7 +69,7 @@ export class ProductoService {
     return this.http.post(url, producto, this.headers);
   }
 
-  actualizarProducto(producto: Producto){
+  actualizarProducto(_id:string, producto: Producto){
     const url = `${base_url}/productos/${producto._id}`;
     return this.http.put(url, producto, this.headers);
   }
@@ -85,7 +85,7 @@ export class ProductoService {
   }
 
   populares():Observable<any>{
-    const url = `${base_url}/productos_ventas/populares`;
+    const url = `${base_url}/productos//productos_ventas/populares`;
     return this.http.get(url, this.headers);
   }
 
@@ -105,7 +105,7 @@ export class ProductoService {
   }
 
   listar_papelera(filtro):Observable<any>{
-    const url = `${base_url}/productos/papelera/`+filtro;
+    const url = `${base_url}/productos/productos/papelera/`+filtro;
     return this.http.get(url,  this.headers);
   }
 
@@ -164,8 +164,8 @@ export class ProductoService {
     return this.http.get(url,  this.headers);
   }
 
-  papelera(id):Observable<any>{
-    const url = `${base_url}/productos/producto_admin/admin/papelera/`+id;
+  papelera(_id:string){
+    const url = `${base_url}/productos/producto_admin/admin/papelera/${_id}`;
     return this.http.get(url,  this.headers);
   }
 

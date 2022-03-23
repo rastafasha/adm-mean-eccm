@@ -31,17 +31,18 @@ export class AdminTicketComponent implements OnInit {
 
   ngOnInit(): void {
 
+  this.listar();
 
 
   }
 
   listar(){
-    this._ticketService.get_tickets_admin(null,null).subscribe(
+    this._ticketService.get_tickets_admin().subscribe(
       response =>{
-        console.log(response);
         this.tickets = response;
         this.count_cat = this.tickets.tickets.length;
         this.page = 1;
+        console.log(this.tickets);
       },
       error=>{
         console.log(error);

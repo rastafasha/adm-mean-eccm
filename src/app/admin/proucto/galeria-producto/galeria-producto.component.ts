@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Producto } from 'src/app/models/producto.model';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { GaleriaService } from 'src/app/services/galeria.service';
 import {environment} from 'src/environments/environment';
+import Swal from 'sweetalert2';
 import { UsuarioService } from '../../../services/usuario.service';
 
 declare var jQuery:any;
@@ -22,6 +25,10 @@ export class GaleriaProductoComponent implements OnInit {
   public count_img;
   public identity;
 
+  public imgSelect : String | ArrayBuffer;
+  public productoSeleccionado: Producto;
+  public imagenSubir: File;
+
 
   p: number = 1;
   count: number = 8;
@@ -31,6 +38,7 @@ export class GaleriaProductoComponent implements OnInit {
     private _route : ActivatedRoute,
     private _router : Router,
     private _userService: UsuarioService,
+    private fileUploadService: FileUploadService,
 
   ) {
     this.url = environment.baseUrl;
@@ -41,7 +49,7 @@ export class GaleriaProductoComponent implements OnInit {
     this._route.params.subscribe(
       params=>{
         this.id = params['id'];
-        this._galeriaService.listar(this.id).subscribe(
+        this._galeriaService.get_cupon(this.id).subscribe(
           response=>{
             this.imagenes = response.imagenes;
             this.count_img = this.imagenes.length;
@@ -79,7 +87,7 @@ export class GaleriaProductoComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  onSubmit(galeriaFormzz){
+  onSubmit(galeriaForm){
 
       let data = {
         imagenes : this.files,
@@ -104,7 +112,7 @@ export class GaleriaProductoComponent implements OnInit {
     this._route.params.subscribe(
       params=>{
         this.id = params['id'];
-        this._galeriaService.listar(this.id).subscribe(
+        this._galeriaService.get_cupon(this.id).subscribe(
           response=>{
             this.imagenes = response.imagenes;
             this.count_img = this.imagenes.length;
@@ -131,6 +139,18 @@ export class GaleriaProductoComponent implements OnInit {
 
       }
     );
+  }
+
+  subirImagen(){
+    this.fileUploadService
+    .actualizarFoto(this.imagenSubir, 'galerias', this.productoSeleccionado._id)
+    .then(img => { this.productoSeleccionado.img = img;
+      Swal.fire('Guardado', 'La imagen fue actualizada', 'success');
+
+    }).catch(err =>{
+      Swal.fire('Error', 'No se pudo subir la imagen', 'error');
+
+    })
   }
 
 }

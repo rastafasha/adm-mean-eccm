@@ -164,7 +164,7 @@ export class ProdEditComponent implements OnInit {
         ...this.productoForm.value,
         _id: this.productoSeleccionado._id
       }
-      this.productoService.actualizarProducto(data).subscribe(
+      this.productoService.actualizarProducto(this.producto._id, this.producto).subscribe(
         resp =>{
           Swal.fire('Actualizado', `${titulo}  actualizado correctamente`, 'success');
         });

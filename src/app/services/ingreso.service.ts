@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {environment} from 'src/environments/environment';
-
+import { map } from 'rxjs/operators';
+import { Ingreso } from '../models/ingreso.model';
+const base_url = environment.baseUrl;
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +18,22 @@ export class IngresoService {
     this.url = environment.baseUrl;
   }
 
+  get token():string{
+    return localStorage.getItem('token') || '';
+  }
+
+
+  get headers(){
+    return{
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
+
+
+
   registro(data):Observable<any>{
     const fd = new FormData();
     fd.append('user',data.user);
@@ -24,21 +42,25 @@ export class IngresoService {
     fd.append('proveedor',data.proveedor);
     fd.append('nota',data.nota);
     fd.append('detalles',data.detalles);
-    return this._http.post(this.url + '/ingreso/registro',fd);
+    return this._http.post(this.url + '/ingresos/',fd);
   }
 
   get_data_venta_admin(search,orden,tipo):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/ingreso/listar/'+search+'/'+orden+'/'+tipo,{headers:headers});
+    return this._http.get(this.url+'/ingresos/listar/'+search+'/'+orden+'/'+tipo,{headers:headers});
   }
 
   get_data_detalle(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/ingreso/detalle/'+id,{headers:headers});
+    return this._http.get(this.url+'/ingresos/detalle/'+id,{headers:headers});
   }
 
   init_data():Observable<any>{
-    let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/ingreso/init_data',{headers:headers});
+
+    const url = `${base_url}/ingresos`;
+    return this._http.get(url, this.headers)
+      .pipe(
+        map((resp:{ok: boolean, ingresos: Ingreso[]}) => resp.ingresos)
+      )
   }
 }

@@ -24,58 +24,58 @@ export class VentaService {
 
   registro(data):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.post(this.url+'/venta/registro',data,{headers:headers});
+    return this._http.post(this.url+'/ventas',data,{headers:headers});
   }
 
   listar(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta/data/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/venta/data/'+id,{headers:headers});
   }
 
   detalle(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_track/detalle/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_track/detalle/'+id,{headers:headers});
   }
 
   finalizar(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_finalizar/venta/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_finalizar/venta/'+id,{headers:headers});
   }
 
   update_envio(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_enviado/update/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_enviado/update/'+id,{headers:headers});
   }
 
   evaluar_cancelacion(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/cancelacion_evaluar/venta/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/cancelacion_evaluar/venta/'+id,{headers:headers});
   }
 
   reembolsar(id,idticket):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/cancelacion_send/reembolsar/'+id+'/'+idticket,{headers:headers});
+    return this._http.get(this.url+'/ventas/cancelacion_send/reembolsar/'+id+'/'+idticket,{headers:headers});
   }
 
 
   cancelar(data):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.post(this.url+'/cancelacion_send/cancelar',data,{headers:headers});
+    return this._http.post(this.url+'/ventas/cancelacion_send/cancelar',data,{headers:headers});
   }
 
   denegar(id,idticket):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/cancelacion_send/denegar/'+id+'/'+idticket,{headers:headers});
+    return this._http.get(this.url+'/ventas/cancelacion_send/denegar/'+id+'/'+idticket,{headers:headers});
   }
 
   listar_cancelacion(wr):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/get_cancelacion_admin/data/'+wr,{headers:headers});
+    return this._http.get(this.url+'/ventas/get_cancelacion_admin/data/'+wr,{headers:headers});
   }
 
   get_cancelacion(id):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/get_one_cancelacion_admin/one/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/get_one_cancelacion_admin/one/'+id,{headers:headers});
   }
 
   get_token():Observable<any>{
@@ -107,37 +107,37 @@ export class VentaService {
   get_cancelacion_venta(id):Observable<any>{
 
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/cancelacion_venta/obtener_data/'+id,{headers:headers});
+    return this._http.get(this.url+'/ventas/cancelacion_venta/obtener_data/'+id,{headers:headers});
   }
 
   evaluar_venta_user(user,producto):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/evaluar_venta/data/'+user+'/'+producto,{headers:headers});
+    return this._http.get(this.url+'/ventas/evaluar_venta/data/'+user+'/'+producto,{headers:headers});
   }
 
   get_data_venta_admin(search,orden,tipo):Observable<any>{
 
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_admin/listar/'+search+'/'+orden+'/'+tipo,{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_admin/listar/'+search+'/'+orden+'/'+tipo,{headers:headers});
   }
 
   set_track(id,data):Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.post(this.url+'/venta_track/set/'+id,data,{headers:headers});
+    return this._http.post(this.url+'/ventas/venta_track/set/'+id,data,{headers:headers});
   }
 
   get_data_dashboard():Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_data/dashboard',{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_data/dashboard',{headers:headers});
   }
 
   get_detalle_hoy():Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_data/detalles/hoy',{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_data/detalles/hoy',{headers:headers});
   }
 
   init_data_admin():Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'/venta_admin_init/init_data',{headers:headers});
+    return this._http.get(this.url+'/ventas/venta_admin_init/init_data',{headers:headers});
   }
 }

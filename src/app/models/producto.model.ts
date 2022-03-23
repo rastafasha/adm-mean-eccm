@@ -8,6 +8,7 @@ export class Producto{
         public titulo: string,
         public precio_ahora: string,
         public precio_antes: string,
+        public video_review: string,
         public info_short: string,
         public detalle: string,
         public stock: string,
@@ -15,16 +16,15 @@ export class Producto{
         public subcategoria: string,
         public nombre_selector: string,
         public marca: string,
-        public video_review?: string,
-        public _id?: string,
         public img?: string,
+    public _id?: string
 
   ){}
 
   get imagenUrl(){
 
     if(!this.img){
-      return `${base_url}/uploads/productos/no-image.jpg`;
+      return `${base_url}/uploads/no-image.jpg`;
     } else if(this.img.includes('https')){
       return this.img;
     } else if(this.img){

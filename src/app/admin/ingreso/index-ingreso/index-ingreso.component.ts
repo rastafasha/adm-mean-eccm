@@ -53,14 +53,16 @@ export class IndexIngresoComponent implements OnInit {
 
   ngOnInit(): void {
     this.year = this.mydate.getFullYear();
-        this._ingresoervice.init_data().subscribe(
-          response=>{
-            this.ingresos = response.data;
+    this.loadIngreso();
+  }
 
-            this.count_cat = this.ingresos.length;
-            this.page = 1;
-          }
-        );
+  loadIngreso(){
+    this._ingresoervice.init_data().subscribe(
+      ingresos => {
+        this.ingresos = ingresos;
+        console.log(this.ingresos);
+      }
+    )
   }
 
   pills(id){

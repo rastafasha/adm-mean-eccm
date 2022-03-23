@@ -55,7 +55,7 @@
                             <div class="card">
                                 <div class="row no-gutters">
                                     <div class="col-sm-4">
-                                        <img [src]="url+'productos_img_data/resources/thumbnails/'+item.poster" class="rounded-left" alt="Card image">
+                                        <img [src]="item.img | imagenPipe: 'productos'" class="rounded-left img-responsive" alt="Card image">
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="card-body">

@@ -3,43 +3,63 @@ import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {environment} from 'src/environments/environment';
 import { Galeria } from "../models/galeria.model";
+import { map } from 'rxjs/operators';
 
+const base_url = environment.baseUrl;
 @Injectable({
   providedIn: 'root'
 })
 export class GaleriaService {
 
-  public url;
+
 
   constructor(
-    private _http : HttpClient,
+    private http : HttpClient,
   ) {
-    this.url = environment.baseUrl;
   }
 
-  listar(filtro):Observable<any>{
-    let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url + '/galerias/'+filtro,{headers:headers})
+  get token():string{
+    return localStorage.getItem('token') || '';
   }
+
+
+  get headers(){
+    return{
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
 
   find_by_product(id):Observable<any>{
-    let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url + '/galeria_producto/find/'+id,{headers:headers})
+    const url = `${base_url}/galerias/galeria_producto/find/${id}`;
+    return this.http.get(url, this.headers);
   }
+
 
   registro(data):Observable<any>{
-
-    const fd = new FormData();
-    fd.append('producto',data.producto);
-    data.imagenes.forEach(element => {
-      fd.append('imagenes',element);
-    });
-
-    return this._http.post(this.url+'/galerias/registro',fd);
+    const url = `${base_url}/galerias`;
+    return this.http.post(url, data, this.headers);
   }
 
-  eliminar(id):Observable<any>{
-    let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.delete(this.url + '/galerias/'+id,{headers:headers})
+
+
+  listar():Observable<any>{
+    const url = `${base_url}/galerias`;
+    return this.http.get(url, this.headers);
+    }
+
+  get_cupon(id):Observable<any>{
+    const url = `${base_url}/galerias/${id}`;
+    return this.http.get(url, this.headers)
+    .pipe(
+      map((resp:{ok: boolean, galeria: Galeria}) => resp.galeria)
+      );
+  }
+
+  eliminar(_id):Observable<any>{
+    const url = `${base_url}/galerias/${_id}`;
+    return this.http.delete(url, this.headers);
   }
 }

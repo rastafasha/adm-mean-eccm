@@ -38,9 +38,9 @@ import { IconosService } from '../services/iconos.service';
     RxjsComponent,
     PerfilComponent,
     UsuariosComponent,
-    // HospitalesComponent,
-    // MedicosComponent,
-    // MedicoComponent,
+    HospitalesComponent,
+    MedicosComponent,
+    MedicoComponent,
     BusquedaComponent,
   ],
   exports: [

@@ -74,7 +74,7 @@
                 <option value="0" selected>Todos</option>
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
-                <option value="3">Marco</option>
+                <option value="3">Marzo</option>
                 <option value="4">Abril</option>
                 <option value="5">Mayo</option>
                 <option value="6">Junio</option>
@@ -171,8 +171,9 @@
                                         <div class="row">
                                             <div class="col-lg-7">
                                                 <div class="media-body pt-2">
-                                                    <div class="font-size-sm"><span class="text-muted mr-2">Encargado:</span> {{item.user.first_name}} {{item.user.last_name}}
-                                                    </div>
+                                                    <!-- <div class="font-size-sm">
+                                                      <span class="text-muted mr-2">Encargado:</span> {{item.usuario.first_name}} {{item.usuario.last_name}}
+                                                    </div> -->
                                                     <div class="font-size-sm"><span class="text-muted mr-2">Proveeedor:</span> {{item.proveedor}}
                                                     </div>
                                                     <div class="font-size-sm"><span class="text-muted mr-2">Fecha:</span> {{ item.createdAt | date:'MMM d, y, h:mm:ss a' }}
@@ -187,7 +188,7 @@
                                                         <a [routerLink]="['/dashboard/ingresos/detalle/',item._id]" class="btn btn-dark btn-icon">
                                                             <i class="czi-basket"></i> &nbsp; Detalles
                                                         </a>
-                                                        <a target="_blank" [attr.href]="url+'ingreso/factura/'+item.factura" class="btn btn-accent btn-icon">
+                                                        <a target="_blank" [attr.href]="url+'/ingreso/factura/'+item.factura" class="btn btn-accent btn-icon">
                                                             <i class="czi-document"></i> &nbsp; Factura
                                                         </a>
 
